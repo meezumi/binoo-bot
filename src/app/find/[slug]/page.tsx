@@ -2,13 +2,20 @@ import { Metadata } from 'next';
 import { api } from '@/lib/api';
 import SearchResults from '@/components/sections/find/SearchResults';
 
-interface Props {
-  params: {
-    slug: string;
-  };
+// Define params type separately
+type PageParams = {
+  slug: string;
+};
+
+// Define the props interface for the page
+interface PageProps {
+  params: PageParams;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
   const title = params.slug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -24,7 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function FindPage({ params }: Props) {
+export default async function FindPage({
+  params,
+  searchParams
+}: PageProps) {
   // Fetch initial data server-side
   const [location, category] = params.slug.split('-in-');
   const initialData = await api.getBusinesses({
@@ -40,4 +50,13 @@ export default async function FindPage({ params }: Props) {
       />
     </div>
   );
+}
+
+// Optional: Generate static params if using static generation
+export async function generateStaticParams(): Promise<PageParams[]> {
+  // Fetch your paths data here
+  return [
+    { slug: 'example-slug' }
+    // Add more slugs as needed
+  ];
 }
