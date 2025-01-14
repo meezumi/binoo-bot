@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_common_coordinates",
+  "info": {
+    "displayName": "coordinates"
+  },
+  "options": {},
+  "attributes": {
+    "latitude": {
+      "type": "integer"
+    },
+    "longitude": {
+      "type": "integer"
+    }
+  }
+}

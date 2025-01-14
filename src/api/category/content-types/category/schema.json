@@ -1,0 +1,35 @@
+{
+    "kind": "collectionType",
+    "collectionName": "categories",
+    "info": {
+        "singularName": "category",
+        "pluralName": "categories",
+        "displayName": "Category"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true,
+            "unique": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "name"
+        },
+        "description": {
+            "type": "text"
+        },
+        "businesses": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::business.business",
+            "mappedBy": "categories"
+        },
+        "icon": {
+            "type": "string"
+        }
+    }
+}

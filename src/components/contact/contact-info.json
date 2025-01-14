@@ -1,0 +1,24 @@
+{
+    "collectionName": "components_contact_info",
+    "info": {
+        "displayName": "Contact Info",
+        "description": "Business contact information"
+    },
+    "options": {},
+    "attributes": {
+        "phone": {
+            "type": "string"
+        },
+        "email": {
+            "type": "email"
+        },
+        "website": {
+            "type": "string"
+        },
+        "socialMedia": {
+            "type": "component",
+            "component": "social.social-media",
+            "repeatable": true
+        }
+    }
+}
