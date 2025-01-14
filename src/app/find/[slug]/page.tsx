@@ -2,21 +2,24 @@ import { Metadata } from 'next';
 import { api } from '@/lib/api';
 import SearchResults from '@/components/sections/find/SearchResults';
 
-// Define params type separately
-type PageParams = {
-  slug: string;
+// Define the params type
+type SearchParams = {
+  [key: string]: string | string[] | undefined;
 };
 
-// Define the props interface for the page
+// Define the props interface
 interface PageProps {
-  params: PageParams;
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: {
+    slug: string;
+  };
+  searchParams: SearchParams;
 }
 
+// Make generateMetadata async and handle Promise params
 export async function generateMetadata(
-  { params }: PageProps
+  props: PageProps
 ): Promise<Metadata> {
-  const title = params.slug
+  const title = props.params.slug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
@@ -31,10 +34,12 @@ export async function generateMetadata(
   };
 }
 
-export default async function FindPage({
-  params,
-  searchParams
-}: PageProps) {
+// Make the page component async and handle Promise params
+export default async function FindPage(
+  props: PageProps
+) {
+  const { params, searchParams } = props;
+  
   // Fetch initial data server-side
   const [location, category] = params.slug.split('-in-');
   const initialData = await api.getBusinesses({
@@ -50,13 +55,4 @@ export default async function FindPage({
       />
     </div>
   );
-}
-
-// Optional: Generate static params if using static generation
-export async function generateStaticParams(): Promise<PageParams[]> {
-  // Fetch your paths data here
-  return [
-    { slug: 'example-slug' }
-    // Add more slugs as needed
-  ];
 }
